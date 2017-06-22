@@ -109,7 +109,7 @@ def load_user(user_id):
 
 class UserPlan(db.Model):
     plan_id = db.Column(db.String(64), primary_key=True)
-    plan_name = db.Column(db.String(128))
+    plan_name = db.Column(db.String(128), unique=True)
     plan_type = db.Column(db.String(32), index=True)
     plan_quota = db.Column(db.Integer)
     create_time = db.Column(db.Date)

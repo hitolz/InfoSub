@@ -37,73 +37,73 @@ class Article(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def __unicode__(self):
+        return "Article: {}".format(self.article_title)
+
 
 class Tag(db.Model):
     tag_id = db.Column(db.String(64), primary_key=True)
     tag_name = db.Column(db.String(10))
     create_time = db.Column(db.DateTime)
 
-    def __init__(self, tag_name, *args, **kwargs):
+    def __init__(self, tag_name='', *args, **kwargs):
         super(Tag, self).__init__(*args, **kwargs)
         self.tag_id = uuid.uuid4()
         self.tag_name = tag_name
         self.create_time = datetime.now()
+        db.session.add(self)
+        db.session.commit()
+
+    def __unicode__(self):
+        return "Tag: {}".format(self.tag_name)
 
 
 class WebSite(db.Model):
     site_id = db.Column(db.String(64), primary_key=True)
     site_url = db.Column(db.String(64))
-    sub_id = db.Column(db.String(64))
-    site_type_id = db.Column(db.String(20), db.ForeignKey('site_type.type_id'), index=True)
-    articles = db.relationship('Article', backref='site',
-                               lazy='dynamic')
     site_name = db.Column(db.String(50))
     site_desc = db.Column(db.String(255))
-    create_time = db.Column(db.DateTime)
+    site_type_id = db.Column(db.String(64), db.ForeignKey('site_type.type_id'), index=True)
 
-    def __init__(self, site_url, site_type, site_name, site_desc, sub_type, *args, **kwargs):
-        super(WebSite, self).__init__(*args, **kwargs)
-        self.site_id = str(uuid.uuid4())
-        self.site_url = site_url
-        self.site_type = site_type
-        self.site_name = site_name
-        self.site_desc = site_desc
-
-        sub = SiteSub(self.site_id, sub_type)
-        self.sub_id = sub.sub_id
-        self.create_time = datetime.now()
-
-
-class SiteSub(db.Model):
-    sub_id = db.Column(db.String(64), primary_key=True)
     sub_type = db.Column(db.String(20))
-    site_id = db.Column(db.String(64))
     rss_url = db.Column(db.String(128))
     spider_name = db.Column(db.String(64))
+
+    articles = db.relationship('Article', backref='site', lazy='dynamic')
     create_time = db.Column(db.DateTime)
     last_sub_time = db.Column(db.DateTime)
 
-    def __init__(self, site_id, sub_type, rss_url, spider_name, *args, **kwargs):
-        super(SiteSub, self).__init__(*args, **kwargs)
-        self.site_id = site_id
-        self.sub_id = str(uuid.uuid4())
-        self.sub_type = sub_type
-        self.rss_url = rss_url
-        self.spider_name = spider_name
+    def __init__(self, site_url='', site_name='', site_desc='', sub_type='rss', *args, **kwargs):
+        super(WebSite, self).__init__(*args, **kwargs)
+        self.site_id = str(uuid.uuid4())
+        self.site_url = site_url
+        self.site_name = site_name
+        self.site_desc = site_desc
         self.create_time = datetime.now()
+        db.session.add(self)
+        db.session.commit()
+        self.init_site_sub(sub_type)
+
+    def set_site_type(self, site_type):
+        self.site_type_id = site_type.type_id
+        db.session.add(self)
+        db.session.commit()
+
+    def __unicode__(self):
+        return "Web Site {}: {}".format(self.site_name, self.site_url)
 
     def sub_success(self):
         self.last_sub_time = datetime.now()
 
 
 class SiteType(db.Model):
-    type_id = db.Column(db.String(64), primary_key=True)
+    type_id = db.Column(db.String(64), default=lambda: str(uuid.uuid4()), primary_key=True)
     type_name = db.Column(db.String(20))
     create_time = db.Column(db.DateTime)
     sites = db.relationship('WebSite', backref='site_type',
                             lazy='dynamic')
 
-    def __init__(self, type_name, *args, **kwargs):
+    def __init__(self, type_name='', *args, **kwargs):
         super(SiteType, self).__init__(*args, **kwargs)
         self.type_name = type_name
         self.create_time = datetime.now()
@@ -114,3 +114,6 @@ class SiteType(db.Model):
         self.sites = sites
         db.session.add(self)
         db.session.commit()
+
+    def __unicode__(self):
+        return "Site Type: {}".format(self.type_name)
