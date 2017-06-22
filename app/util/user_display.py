@@ -14,3 +14,7 @@ plan_display = {
     "advanced_plan": u"高级套餐",
     "internal_plan": u"内部套餐",
 }
+
+plan_type_display = {
+    "subscription": u"订阅套餐",
+}
