@@ -12,3 +12,9 @@ class BaseError(Exception):
             CODE=self.error_code,
         )
 
+
+class ConfigError(BaseError):
+
+    def __init__(self, error_msg):
+        super(ConfigError, self).__init__("config_error", error_msg, 500)
+
