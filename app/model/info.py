@@ -61,17 +61,20 @@ class WebSite(db.Model):
     site_desc = db.Column(db.String(255))
     create_time = db.Column(db.DateTime)
 
-    def __init__(self, site_url, site_type, site_name, site_desc, sub_type, *args, **kwargs):
+    def __init__(self, site_url, site_name, site_desc, sub_type, site_type_id, *args, **kwargs):
         super(WebSite, self).__init__(*args, **kwargs)
         self.site_id = str(uuid.uuid4())
         self.site_url = site_url
-        self.site_type = site_type
         self.site_name = site_name
         self.site_desc = site_desc
+        self.site_type_id = site_type_id
 
         sub = SiteSub(self.site_id, sub_type)
         self.sub_id = sub.sub_id
         self.create_time = datetime.now()
+
+        db.session.add(self)
+        db.session.commit()
 
 
 class SiteSub(db.Model):
@@ -92,8 +95,13 @@ class SiteSub(db.Model):
         self.spider_name = spider_name
         self.create_time = datetime.now()
 
+        db.session.add(self)
+        db.session.commit()
+
     def sub_success(self):
         self.last_sub_time = datetime.now()
+        db.session.add(self)
+        db.session.commit()
 
 
 class SiteType(db.Model):
@@ -105,6 +113,7 @@ class SiteType(db.Model):
 
     def __init__(self, type_name, *args, **kwargs):
         super(SiteType, self).__init__(*args, **kwargs)
+        self.type_id = str(uuid.uuid4())
         self.type_name = type_name
         self.create_time = datetime.now()
         db.session.add(self)
