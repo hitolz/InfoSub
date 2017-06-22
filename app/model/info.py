@@ -20,8 +20,8 @@ class Article(db.Model):
                            backref=db.backref('articles', lazy='dynamic'))
     create_time = db.Column(db.DateTime)
 
-    def __init__(self, article_title='', article_url='', article_desc='', article_content='',
-                 site_id='', *args, **kwargs):
+    def __init__(self, article_title='', article_url='', article_desc='',
+                 article_content='', site_id=None, *args, **kwargs):
         super(Article, self).__init__(*args, **kwargs)
         self.article_id = str(uuid.uuid4())
         self.article_title = article_title
