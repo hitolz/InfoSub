@@ -1,12 +1,9 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
 
 from config import app_config
 from app.util.errors import ConfigError
-
-db = SQLAlchemy()
-login_manager = LoginManager()
+from app.admin import admin
+from app.extensions import db, login_manager
 
 
 def create_app(config_name):
@@ -24,5 +21,6 @@ def create_app(config_name):
 
     db.init_app(app)
     login_manager.init_app(app)
-    return app
 
+    admin.init_app(app)
+    return app

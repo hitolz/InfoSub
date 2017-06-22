@@ -15,10 +15,10 @@ manager.add_command("runserver", Server(host="0.0.0.0", port=5000, use_debugger=
 def initdb():
     """
     init database, create all tables, create user plan and create admin.
-    :return:
     """
     print("init database...")
     try:
+        from app.model.user import UserPlan, User, PlanUsage
         db.create_all()
     except Exception as e:
         print e
@@ -40,3 +40,5 @@ def initdb():
 
     print "finish."
 
+if __name__ == "__main__":
+    manager.run()

@@ -4,6 +4,8 @@ import os
 class Config(object):
     DEBUG = False
     TEST = False
+
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
     DATABASE_USER = os.getenv("DATABASE_USER")
     DATABASE_PASS = os.getenv("DATABASE_PASS")
     DATABASE_URI = os.getenv("DATABASE_URI")
@@ -22,16 +24,18 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEBUG = True
     TEST = False
+    SECRET_KEY = "THIS_A_KEY"
 
 
 # production
 class ProductionConfig(Config):
-    pass
+    SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 # testing
 class TestingConfig(Config):
     TEST = True
+    SECRET_KEY = "THIS_A_KEY"
 
 app_config = {
     "DEVELOPMENT": DevelopmentConfig,
