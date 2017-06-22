@@ -66,3 +66,21 @@ class PlanModelView(InfoSubModelView):
             ('subscription', plan_type_display['subscription']),
         ]
     }
+
+
+class WebSiteModelView(InfoSubModelView):
+    pass
+
+
+class SiteTypeModelView(InfoSubModelView):
+    pass
+
+
+class ArticleModelView(InfoSubModelView):
+    pass
+
+
+class ArticleTagModelView(InfoSubModelView):
+    pass
+
+

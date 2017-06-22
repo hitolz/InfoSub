@@ -18,7 +18,7 @@ def initdb():
     print("init database...")
     try:
         from app.model.user import UserPlan, User, PlanUsage
-        from app.model.info import WebSite, Article, SiteType, SiteSub, Tag, tags
+        from app.model.info import WebSite, Article, SiteType, Tag, tags
         db.create_all()
     except Exception as e:
         print e
