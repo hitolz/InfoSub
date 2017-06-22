@@ -3,7 +3,6 @@ from flask_script import Manager, Server
 
 from app import create_app, db
 
-
 RUNTIME = os.getenv("RUNTIME", "DEFAULT")
 app = create_app(RUNTIME)
 manager = Manager(app)
@@ -19,26 +18,30 @@ def initdb():
     print("init database...")
     try:
         from app.model.user import UserPlan, User, PlanUsage
+        from app.model.info import WebSite, Article, SiteType, SiteSub, Tag, tags
         db.create_all()
     except Exception as e:
         print e
 
+    init_user()
+
+    print "finish."
+
+
+def init_user():
     print("create user plan...")
     from app.model.user import User, UserPlan
-    db.session.add(UserPlan("trial_plan", "subscription", 5))
-    db.session.add(UserPlan("primary_plan", "subscription", 100))
-    db.session.add(UserPlan("intermediate_plan", "subscription", 500))
-    db.session.add(UserPlan("advanced_plan", "subscription", 2000))
-    db.session.add(UserPlan("internal_plan", "subscription", 5000))
+    UserPlan("trial_plan", "subscription", 5)
+    UserPlan("primary_plan", "subscription", 100)
+    UserPlan("intermediate_plan", "subscription", 500)
+    UserPlan("advanced_plan", "subscription", 2000)
+    UserPlan("internal_plan", "subscription", 5000)
 
     print("create admin...")
     admin = User("admin", "admin@updev.cn", "admin")
     admin.set_role("admin")
-    db.session.add(admin)
-    db.session.commit()
     print("username: {}, email: {}, password: {}".format(admin.username, admin.email, "admin"))
 
-    print "finish."
 
 if __name__ == "__main__":
     manager.run()
