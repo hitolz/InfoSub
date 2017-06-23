@@ -11,8 +11,8 @@ class PlanUsage(db.Model):
     user_id = db.Column(db.String(64), db.ForeignKey('user.user_id'))
     plan_id = db.Column(db.String(64), db.ForeignKey('user_plan.plan_id'))
     usage = db.Column(db.Integer, default=0)
-    expiration = db.Column(db.Date)
-    create_time = db.Column(db.Date, default=datetime.now())
+    expiration = db.Column(db.DateTime)
+    create_time = db.Column(db.DateTime, default=datetime.now())
 
     def __init__(self, user_id, plan_id, *args, **kwargs):
         super(PlanUsage, self).__init__(*args, **kwargs)
@@ -51,7 +51,7 @@ class User(db.Model):
     plans = db.relationship("UserPlan", secondary=PlanUsage.__table__,
                             backref=db.backref('users', lazy='dynamic'))
     is_active = db.Column(db.Boolean, default=True)
-    create_time = db.Column(db.Date)
+    create_time = db.Column(db.DateTime)
 
     def __init__(self, username="", email="", password="", *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
@@ -80,6 +80,11 @@ class User(db.Model):
             db.session.commit()
         return self.role
 
+    def set_plans(self, plans):
+        self.plans = plans
+        db.session.add(self)
+        db.session.commit()
+
     @property
     def is_authenticated(self):
         if self.user_id:
@@ -90,6 +95,12 @@ class User(db.Model):
     def is_anonymous(self):
         return False
 
+    @property
+    def is_admin(self):
+        if self.role == 'admin':
+            return True
+        return False
+
     def get_id(self):
         return self.user_id
 
@@ -98,6 +109,8 @@ class User(db.Model):
 
     def __setattr__(self, key, value):
         if key == "password":
+            if not value or len(value) == 0:
+                return
             value = str(generate_password_hash(value))
         super(User, self).__setattr__(key, value)
 
@@ -112,7 +125,7 @@ class UserPlan(db.Model):
     plan_name = db.Column(db.String(128), unique=True)
     plan_type = db.Column(db.String(32), index=True)
     plan_quota = db.Column(db.Integer)
-    create_time = db.Column(db.Date)
+    create_time = db.Column(db.DateTime)
 
     def __init__(self, plan_name="", plan_type="", plan_quota=0, *args, **kwargs):
         super(UserPlan, self).__init__(*args, **kwargs)

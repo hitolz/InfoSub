@@ -9,8 +9,7 @@ from app.util.user_display import user_display, plan_type_display
 class InfoSubModelView(ModelView):
 
     def is_accessible(self):
-        return True
-        return current_user.is_authenticated and current_user.role == "admin"
+        return current_user and current_user.is_authenticated and current_user.is_admin
 
     def inaccessible_callback(self, name, **kwargs):
         abort(404)
@@ -33,6 +32,7 @@ class UserModelView(InfoSubModelView):
     form_widget_args = {
         'password': {
             'type': "password",
+            'value': "",
         },
         'email': {
             'type': "email",
@@ -69,18 +69,18 @@ class PlanModelView(InfoSubModelView):
 
 
 class WebSiteModelView(InfoSubModelView):
-    pass
+    column_searchable_list = ['site_name', 'site_url']
 
 
 class SiteTypeModelView(InfoSubModelView):
-    pass
+    column_searchable_list = ['type_name']
 
 
 class ArticleModelView(InfoSubModelView):
-    pass
+    column_searchable_list = ['article_title', 'article_url']
 
 
 class ArticleTagModelView(InfoSubModelView):
-    pass
+    column_searchable_list = ['tag_name']
 
 
