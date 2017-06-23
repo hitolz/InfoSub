@@ -19,11 +19,15 @@ def initdb():
     try:
         from app.model.user import UserPlan, User, PlanUsage
         from app.model.info import WebSite, Article, SiteType, Tag, tags
+        from app.model.subscribe import UserSub
         db.create_all()
     except Exception as e:
         print e
 
-    init_user()
+    try:
+        init_user()
+    except Exception:
+        pass
 
     print "finish."
 

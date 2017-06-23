@@ -43,12 +43,13 @@ class Article(db.Model):
 
 class Tag(db.Model):
     tag_id = db.Column(db.String(64), primary_key=True)
-    tag_name = db.Column(db.String(10))
+    tag_name = db.Column(db.String(128))
+    frequency = db.Column(db.Integer, default=1)
     create_time = db.Column(db.DateTime)
 
     def __init__(self, tag_name='', *args, **kwargs):
         super(Tag, self).__init__(*args, **kwargs)
-        self.tag_id = uuid.uuid4()
+        self.tag_id = str(uuid.uuid4())
         self.tag_name = tag_name
         self.create_time = datetime.now()
         db.session.add(self)
@@ -56,6 +57,11 @@ class Tag(db.Model):
 
     def __unicode__(self):
         return u"Tag: {}".format(self.tag_name)
+
+    def add_frequency(self):
+        self.frequency += 1
+        db.session.add(self)
+        db.session.commit()
 
 
 class WebSite(db.Model):
