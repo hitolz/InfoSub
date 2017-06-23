@@ -1,12 +1,14 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
 from config import app_config
-
-db = SQLAlchemy()
+from app.util.errors import ConfigError
+from app.admin import admin
+from app.extensions import db, login_manager
 
 
 def create_app(config_name):
+    if config_name not in app_config:
+        raise ConfigError("{} is a wrong config name.".format(config_name))
     app = Flask(__name__)
     app.config.from_object(app_config[config_name])
 
@@ -18,5 +20,7 @@ def create_app(config_name):
     app.register_blueprint(view_blueprint)
 
     db.init_app(app)
-    return app
+    login_manager.init_app(app)
 
+    admin.init_app(app)
+    return app

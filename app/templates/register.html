@@ -1,0 +1,48 @@
+{% extends "index_base.html" %}
+{% block title %}注册{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+        <h3>用户注册</h3>
+        <br />
+        <form method="POST" action="{{ url_for('view.register') }}">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class="form-control", placeholder="username") }}
+                <small id="username_error"></small>
+                {% if form.errors.username %}
+                <small style="color: red">{{ form.errors.username[0] }}</small>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(class="form-control", type="email", placeholder="email") }}
+                <small id="email_error"></small>
+                {% if form.errors.email %}
+                <small style="color: red">{{ form.errors.email[0] }}</small>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-control", id="password", placeholder="password") }}
+                {% if form.errors.password %}
+                <small style="color: red">{{ form.errors.password[0] }}</small>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.re_password.label }}
+                {{ form.re_password(class="form-control", id="re_password", placeholder="repeat password") }}
+                <small style="color: red" id="re_password_error"></small>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="submit" class="btn btn-success">立刻注册</button>
+                <a href="{{ url_for('view.login') }}" type="button" class="btn btn-default">已有账号</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/register.js')}}"></script>
+{% endblock %}
