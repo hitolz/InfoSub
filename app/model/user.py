@@ -46,7 +46,7 @@ class User(db.Model):
     user_id = db.Column(db.String(64), primary_key=True)
     username = db.Column(db.String(128), unique=True, nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
-    password = db.Column(db.String(128), nullable=False)
+    password = db.Column(db.String(128))
     role = db.Column(db.String(32))
     plans = db.relationship("UserPlan", secondary=PlanUsage.__table__,
                             backref=db.backref('users', lazy='dynamic'))
