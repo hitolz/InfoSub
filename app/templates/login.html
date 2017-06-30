@@ -2,21 +2,21 @@
 {% block title %}登录{% endblock %}
 {% block content %}
 <div class="row">
-    <div class="col-lg-6 col-lg-offset-3">
+    <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3">
         <h3>用户登录</h3>
-        <br />
+        <br/>
         <form method="POST" action="{{ url_for('view.login') }}">
             {{ form.csrf_token }}
             <div class="form-group">
                 {{ form.username_or_email.label }}
-                {{ form.username_or_email(class="form-control", placeholder="username or email") }}
+                {{ form.username_or_email(class="form-control", placeholder="Username or Email") }}
                 {% if form.errors.username_or_email %}
                 <small style="color: red">{{ form.errors.username_or_email[0] }}</small>
                 {% endif %}
             </div>
             <div class="form-group">
                 {{ form.password.label }}
-                {{ form.password(class="form-control", placeholder="password") }}
+                {{ form.password(class="form-control", placeholder="Password") }}
                 {% if form.errors.password %}
                 <small style="color: red">{{ form.errors.password[0] }}</small>
                 {% endif %}
@@ -27,10 +27,8 @@
                     {{ form.remember.label(style="padding-left: 0px;") }}
                 </label>
             </div>
-            <div class="btn-group" role="group">
-                <button type="submit" class="btn btn-primary">登录</button>
-                <a href="{{ url_for('view.register') }}" type="button" class="btn btn-default">注册</a>
-            </div>
+            <button type="submit" class="btn btn-primary btn-block">登录</button>
+            <a href="{{ url_for('view.register') }}" type="button" class="btn btn-link btn-block">注册新用户</a>
         </form>
     </div>
 </div>

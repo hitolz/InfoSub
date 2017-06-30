@@ -2,6 +2,7 @@
 
 user_display = {
     "trial_user": u'试用用户',
+    "invited_user": u'受邀用户',
     "pay_user": u'VIP用户',
     "internal_user": u'内部用户',
     "admin": u'管理员',

@@ -34,7 +34,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">{{ current_user.username }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">用户设置</a></li>
+                        <li><a href="{{ url_for('user.setting') }}">用户设置</a></li>
                         <li><a href="https://github.com/CoderHito/InfoSub/issues" target="_blank">反馈信息</a></li>
                         <li role="separator" class="divider"></li>
                         {% if current_user.is_admin %}
