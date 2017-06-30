@@ -44,9 +44,9 @@ class PlanUsage(db.Model):
 
 class User(db.Model):
     user_id = db.Column(db.String(64), primary_key=True)
-    username = db.Column(db.String(128), unique=True)
-    email = db.Column(db.String(128), unique=True)
-    password = db.Column(db.String(128))
+    username = db.Column(db.String(128), unique=True, nullable=False)
+    email = db.Column(db.String(128), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(32))
     plans = db.relationship("UserPlan", secondary=PlanUsage.__table__,
                             backref=db.backref('users', lazy='dynamic'))
@@ -122,7 +122,7 @@ def load_user(user_id):
 
 class UserPlan(db.Model):
     plan_id = db.Column(db.String(64), primary_key=True)
-    plan_name = db.Column(db.String(128), unique=True)
+    plan_name = db.Column(db.String(128), unique=True, nullable=False)
     plan_type = db.Column(db.String(32), index=True)
     plan_quota = db.Column(db.Integer)
     create_time = db.Column(db.DateTime)
@@ -136,6 +136,11 @@ class UserPlan(db.Model):
         self.create_time = datetime.now()
         db.session.add(self)
         db.session.commit()
+
+    @property
+    def usage(self):
+        usage = PlanUsage.query.filter_by(plan_id=self.plan_id).first()
+        return usage.usage
 
     def __unicode__(self):
         return u"{} {}: {}Q".format(plan_type_display[self.plan_type], plan_display[self.plan_name], self.plan_quota)
