@@ -11,6 +11,8 @@ def get_user_by_username_or_email(username_or_email):
 
 
 def validate_username(username):
+    if (username or "").lower() in ["admin", "administrator", "root", "user"]:
+        return False
     if len(username) > 60:
         return False
     user = User.query.filter_by(username=username).first()

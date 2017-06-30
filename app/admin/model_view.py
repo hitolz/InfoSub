@@ -18,7 +18,6 @@ class InfoSubModelView(ModelView):
 class UserModelView(InfoSubModelView):
     column_exclude_list = ['password', ]
     column_searchable_list = ['username', 'email']
-    can_delete = False
 
     form_choices = {
         'role': [

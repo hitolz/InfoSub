@@ -19,6 +19,12 @@ def create_app(config_name):
     app.register_blueprint(info_blueprint)
     app.register_blueprint(view_blueprint)
 
+    from app.extensions import display_plan_type, display_play, display_user
+    jinja_env = app.jinja_env
+    jinja_env.filters['plan_type'] = display_plan_type
+    jinja_env.filters['plan_name'] = display_play
+    jinja_env.filters['user_type'] = display_user
+
     db.init_app(app)
     login_manager.init_app(app)
 

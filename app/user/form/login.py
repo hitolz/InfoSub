@@ -20,9 +20,9 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-    username = StringField(u"用户名")
-    email = StringField(u"邮箱")
-    password = PasswordField(u"登录密码")
+    username = StringField(u"用户名", validators=[DataRequired(u"用户名不能为空")])
+    email = StringField(u"邮箱", validators=[DataRequired(u"邮箱不能为空")])
+    password = PasswordField(u"登录密码", validators=[DataRequired(u"登录密码不能为空")])
     re_password = PasswordField(u"重复密码")
 
     def validate_username(self, field):
