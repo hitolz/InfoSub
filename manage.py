@@ -39,13 +39,15 @@ def init_user():
     UserPlan("primary_plan", "subscription", 100)
     UserPlan("intermediate_plan", "subscription", 500)
     UserPlan("advanced_plan", "subscription", 2000)
-    UserPlan("internal_plan", "subscription", 5000)
+    admin_plan = UserPlan("internal_plan", "subscription", 5000)
 
     print("create admin...")
     admin = User("admin", "admin@updev.cn", "admin")
     admin.set_role("admin")
+    admin.set_plans([admin_plan])
     print("username: {}, email: {}, password: {}".format(admin.username, admin.email, "admin"))
 
 
 if __name__ == "__main__":
     manager.run()
+

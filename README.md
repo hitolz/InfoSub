@@ -58,5 +58,7 @@ docker-compose -f docker-compose.yml exec sub_service python manage.py initdb
 
 然后可以访问 http://127.0.0.1 即可, 默认管理员: `admin`, 登录密码: `admin`
 
-**线上一定不要使用 yml 里的默认密码**
+**注意**
+  1. 线上一定不要使用 yml 里的默认密码
+  2. 线上环境一定要为数据库添加持久化
 
