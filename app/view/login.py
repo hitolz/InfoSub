@@ -3,7 +3,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 from app.view import view_blueprint
 from app.user.form.login import LoginForm, RegisterForm
-from app.services.user import get_user_by_username_or_email, create_user
+from app.services.user import get_user_by_username_or_email, create_user, init_user_plan
 
 
 @view_blueprint.route("/login", methods=['GET', 'POST'])
@@ -25,6 +25,7 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         user = create_user(form.username.data, form.email.data, form.password.data)
+        init_user_plan(user, form.coupon.data or None)
         login_user(user, remember=True)
         return redirect(url_for("user.home"))
     return render_template("register.html", form=form)

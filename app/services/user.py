@@ -11,6 +11,8 @@ def get_user_by_username_or_email(username_or_email):
 
 
 def validate_username(username):
+    if (username or "").lower() in ["admin", "administrator", "root", "user"]:
+        return False
     if len(username) > 60:
         return False
     user = User.query.filter_by(username=username).first()
@@ -30,7 +32,15 @@ def validate_email(email):
 
 def create_user(username, email, password):
     user = User(username=username, email=email, password=password)
+    return user
+
+
+def init_user_plan(user, coupon_code):
+    coupon = None
+    if coupon:
+        user.set_plans([])
+        user.set_role("invited_user")
+        return
     plan = UserPlan.query.filter_by(plan_name="trial_plan").first()
     user.set_plans([plan])
-    return user
 
