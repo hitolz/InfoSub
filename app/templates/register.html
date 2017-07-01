@@ -12,28 +12,28 @@
                 {{ form.username(class="form-control", placeholder="Username") }}
                 <small id="username_error"></small>
                 {% if form.errors.username %}
-                <small style="color: red">{{ form.errors.username[0] }}</small>
+                <small class="text-danger">{{ form.errors.username[0] }}</small>
                 {% endif %}
             </div>
             <div class="form-group">
                 {{ form.email.label }} <b style="color: red">*</b>
                 {{ form.email(class="form-control", type="email", placeholder="Email") }}
-                <small id="email_error"></small>
+                <small class="text-warning" id="email_error"></small>
                 {% if form.errors.email %}
-                <small style="color: red">{{ form.errors.email[0] }}</small>
+                <small class="text-danger">{{ form.errors.email[0] }}</small>
                 {% endif %}
             </div>
             <div class="form-group">
                 {{ form.password.label }} <b style="color: red">*</b>
                 {{ form.password(class="form-control", id="password", placeholder="Password") }}
                 {% if form.errors.password %}
-                <small style="color: red">{{ form.errors.password[0] }}</small>
+                <small class="text-danger">{{ form.errors.password[0] }}</small>
                 {% endif %}
             </div>
             <div class="form-group">
                 {{ form.re_password.label }} <b style="color: red">*</b>
                 {{ form.re_password(class="form-control", id="re_password", placeholder="Repeat Password") }}
-                <small style="color: red" id="re_password_error"></small>
+                <small class="text-danger" id="re_password_error"></small>
             </div>
             <div class="form-group">
                 {{ form.coupon.label }}

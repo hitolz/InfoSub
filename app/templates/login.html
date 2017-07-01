@@ -11,14 +11,14 @@
                 {{ form.username_or_email.label }}
                 {{ form.username_or_email(class="form-control", placeholder="Username or Email") }}
                 {% if form.errors.username_or_email %}
-                <small style="color: red">{{ form.errors.username_or_email[0] }}</small>
+                <small class="text-danger">{{ form.errors.username_or_email[0] }}</small>
                 {% endif %}
             </div>
             <div class="form-group">
                 {{ form.password.label }}
                 {{ form.password(class="form-control", placeholder="Password") }}
                 {% if form.errors.password %}
-                <small style="color: red">{{ form.errors.password[0] }}</small>
+                <small class="text-danger">{{ form.errors.password[0] }}</small>
                 {% endif %}
             </div>
             <div class="checkbox">
