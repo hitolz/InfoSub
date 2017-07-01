@@ -1,0 +1,55 @@
+{% extends "dashboard_base.html" %}
+{% block title %}用户设置{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h3>用户设置</h3>
+        <div style="padding: 10px"></div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group">
+                    <a href="{{ url_for('user.setting', path='profile') }}" class="list-group-item">基本信息</a>
+                    <a href="{{ url_for('user.setting', path='account') }}" class="list-group-item">账号安全</a>
+                    <a href="{{ url_for('user.setting', path='message') }}" class="list-group-item">消息提醒</a>
+                    <a href="{{ url_for('user.setting', path='delete') }}" class="list-group-item active">删除账号</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <b class="panel-title">删除账号及信息</b>
+                    </div>
+                    <div class="panel-body">
+                        <p>请注意, 您现在正在进行删除用户的操作。这是一个 <b class="text-danger">不可逆</b> 的操作。</p>
+                        <p>
+                            删除账号后, 此账号所有的 <b>信息</b>, 以及 <b>行为</b> 都会将从数据库中抹去。
+                        </p>
+                        <p>
+                            如果您在使用方面有什么不愉快或者有什么建议欢迎 <a
+                                href="mailto:i@hitol.me?subject=关于InfoSub的反馈&body=Hi Hito, 我是 {{ current_user.username}}, "
+                                type="button" class="btn btn-warning btn-xs"> 联系作者 </a> ,
+                            我们会认真听取您的反馈。
+                        </p>
+                        <hr/>
+                        <div style="text-align: center">
+                            <form class="form-inline" method="POST" action="{{ url_for('user.setting', path='delete') }}">
+                                {{ form.csrf_token }}
+                                <div class="form-group">
+                                    {{ form.check_password.label }} :
+                                    {{ form.check_password(class="form-control", placeholder="Password") }}
+                                </div>
+                                <button type="submit" class="btn btn-danger">删除当前账号</button>
+                                {% if form.errors.check_password %}
+                                <small class="text-danger">{{ form.errors.check_password[0] }}</small>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

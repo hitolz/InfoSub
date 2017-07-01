@@ -46,7 +46,7 @@ class User(db.Model):
     user_id = db.Column(db.String(64), primary_key=True)
     username = db.Column(db.String(128), unique=True, nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
-    password = db.Column(db.String(128), nullable=False)
+    password = db.Column(db.String(128))
     role = db.Column(db.String(32))
     plans = db.relationship("UserPlan", secondary=PlanUsage.__table__,
                             backref=db.backref('users', lazy='dynamic'))
@@ -65,7 +65,7 @@ class User(db.Model):
         db.session.commit()
 
     def update_password(self, password):
-        self.__set_password(password)
+        self.password = password
         db.session.add(self)
         db.session.commit()
 
@@ -83,6 +83,14 @@ class User(db.Model):
     def set_plans(self, plans):
         self.plans = plans
         db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
 
     @property

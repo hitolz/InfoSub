@@ -32,7 +32,15 @@ def validate_email(email):
 
 def create_user(username, email, password):
     user = User(username=username, email=email, password=password)
+    return user
+
+
+def init_user_plan(user, coupon_code):
+    coupon = None
+    if coupon:
+        user.set_plans([])
+        user.set_role("invited_user")
+        return
     plan = UserPlan.query.filter_by(plan_name="trial_plan").first()
     user.set_plans([plan])
-    return user
 
