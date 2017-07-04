@@ -34,8 +34,7 @@
                             <div class="form-group">
                                 {{ form.email.label(class="col-sm-2 control-label") }}
                                 <div class="col-sm-10">
-                                    {{ form.email(class="form-control",
-                                    placeholder="Email") }}
+                                    {{ form.email(class="form-control", type="email", placeholder="Email") }}
                                     {% if form.errors.email %}
                                     <small class="text-danger">{{ form.errors.email[0] }}</small>
                                     {% endif %}
