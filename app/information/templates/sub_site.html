@@ -1,0 +1,20 @@
+{% extends "dashboard_base.html" %}
+{% block title %}info{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3">
+            <form method="POST" action="{{ url_for('info.site_info') }}">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.rss_url.label }}
+                    {{ form.rss_url(class="form-control", placeholder="rss url") }}
+                    {% if form.errors.rss_url %}
+                        <small class="text-danger">{{ form.errors.rss_url[0] }}</small>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">登录</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
