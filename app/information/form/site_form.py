@@ -13,3 +13,4 @@ class SiteForm(FlaskForm):
         if validate_url(field.data):
             return
         raise ValidationError(u"该rss地址不可用")
+
