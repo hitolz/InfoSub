@@ -6,12 +6,13 @@ services:
     image: infosub:latest
     links:
       - sub_db:db
-      - jaeger:jaeger_host
+      - jaeger:jeager_host
     restart: always
     ports:
       - 80:5000
     environment:
       - DATABASE_USER=root
+      - JAEGER_HOST=jeager_host
       - DATABASE_PASS=j79x4txHRz6sAm73
       - DATABASE_URI=db
       - DATABASE_DB=info

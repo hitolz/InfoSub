@@ -29,13 +29,13 @@ def create_app(config_name):
     tool_bar.init_app(app)
     login_manager.init_app(app)
     admin.init_app(app)
+
     if app.config.get("TRACER"):
-        tracer_config.initialize_tracer()
+        initialize_tracer()
 
     @app.before_request
     def init_tracer():
         import opentracing
-        from app.extensions import tracer_config
         span = opentracing.tracer.start_span(str(request.url))
         span.set_tag('user_agent', request.user_agent)
         span.log_event("request args", payload=dict(args=request.args, form=request.form))
@@ -48,4 +48,12 @@ def create_app(config_name):
         return response
 
     return app
+
+
+def initialize_tracer():
+    from app.extensions import tracer_config
+    from threading import Thread
+    t = Thread(name="tracer", target=lambda: tracer_config.initialize_tracer())
+    t.setDaemon(True)
+    t.start()
 
