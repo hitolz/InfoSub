@@ -1,11 +1,28 @@
 from flask import redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_debugtoolbar import DebugToolbarExtension
+from jaeger_client import Config
 
 from app.util.user_display import plan_display, plan_type_display, user_display
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+tool_bar = DebugToolbarExtension()
+
+tracer_config = Config(
+    config={
+        'sampler': {
+            'type': 'const',
+            'param': 1,
+        },
+        'local_agent': {
+            'reporting_host': "127.0.0.1",
+        },
+        'logging': True,
+    },
+    service_name='info_sub_web',
+)
 
 
 @login_manager.unauthorized_handler

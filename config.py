@@ -4,6 +4,7 @@ import os
 class Config(object):
     DEBUG = False
     TEST = False
+    TRACER = os.getenv("TRACER", False)
 
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     DATABASE_USER = os.getenv("DATABASE_USER")
@@ -23,8 +24,9 @@ class Config(object):
 # development
 class DevelopmentConfig(Config):
     DEBUG = True
-    TEST = False
+    TEST = True
     SECRET_KEY = "THIS_A_KEY"
+    SQLALCHEMY_RECORD_QUERIES = True
 
 
 # production
