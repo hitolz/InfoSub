@@ -32,6 +32,7 @@ class DevelopmentConfig(Config):
 # production
 class ProductionConfig(Config):
     SECRET_KEY = os.getenv("SECRET_KEY")
+    TRACER = True
 
 
 # testing

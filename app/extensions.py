@@ -17,7 +17,7 @@ tracer_config = Config(
             'param': 1,
         },
         'local_agent': {
-            'reporting_host': "127.0.0.1",
+            'reporting_host': "jaeger_host",
         },
         'logging': True,
     },
