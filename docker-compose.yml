@@ -6,6 +6,7 @@ services:
     image: infosub:latest
     links:
       - sub_db:db
+      - jaeger:jaeger_host
     restart: always
     ports:
       - 80:5000
@@ -17,11 +18,17 @@ services:
       - SECRET_KEY=3LU23tFm2yvy6D4x
       - RUNTIME=PRODUCTION
 
-
   sub_db:
     image: mysql
     environment:
       - MYSQL_ROOT_PASSWORD=j79x4txHRz6sAm73
       - MYSQL_DATABASE=info
     restart: always
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - 8800:16686
+    restart: always
+
 

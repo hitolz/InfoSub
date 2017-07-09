@@ -23,7 +23,7 @@
                 <div class="panel panel-success">
                     <div class="panel-heading">网站累计订阅文章</div>
                     <div class="panel-body">
-                        <label>0</label> 篇
+                        <label>{{ data.site }}</label> 篇
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">微信公众号累计订阅文章</div>
                     <div class="panel-body">
-                        <label>0</label> 篇
+                        <label>{{ data.wechat }}</label> 篇
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                 <div class="panel panel-warning">
                     <div class="panel-heading">微博累计订阅更新</div>
                     <div class="panel-body">
-                        <label>0</label> 件
+                        <label>{{ data.weibo }}</label> 件
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
             <div class="col-lg-12">
                 <h4>套餐用量</h4>
             </div>
-            {% for p in current_user.plans %}
+            {% for p in plans %}
             <div class="col-md-6 col-xs-6" style="padding: 10px;">
                 <div class="panel panel-danger">
                     <div class="panel-heading">

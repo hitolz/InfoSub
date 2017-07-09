@@ -3,22 +3,21 @@ from flask import render_template, abort, redirect, url_for
 from flask_login import login_required, current_user, logout_user
 
 from app.user import user_blueprint
+from app.services.dashboard import get_dashboard_data
 from .form.setting import UserInfoForm, UserPassEditForm, DeleteUserForm
 
 
 @user_blueprint.route("/")
 @login_required
 def home():
-    _start = datetime.now()
-
-    _load_time = (datetime.now() - _start).microseconds * 0.000001
-    return render_template("dashboard.html", load_time=_load_time)
+    plans = current_user.plans
+    data = get_dashboard_data()
+    return render_template("dashboard.html", data=data, plans=plans)
 
 
 @user_blueprint.route("/setting/<path>", methods=['GET', 'POST'])
 @login_required
 def setting(path):
-    _start = datetime.now()
     form = None
     if path == "profile":
         form = UserInfoForm()
@@ -48,6 +47,5 @@ def setting(path):
     if path == "profile":
         form.username.data = current_user.username
         form.email.data = current_user.email
-    _load_time = (datetime.now() - _start).microseconds * 0.000001
-    return render_template("setting/{}.html".format(path), form=form, load_time=_load_time)
+    return render_template("setting/{}.html".format(path), form=form)
 
