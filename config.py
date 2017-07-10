@@ -6,6 +6,7 @@ class Config(object):
     TEST = False
     TRACER = False
 
+    PROJECT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "app")
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     DATABASE_USER = os.getenv("DATABASE_USER")
     DATABASE_PASS = os.getenv("DATABASE_PASS")

@@ -4,6 +4,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from app.view import view_blueprint
 from app.user.form.login import LoginForm, RegisterForm
 from app.services.user import get_user_by_username_or_email, create_user, init_user_plan
+from app.util.captcha_tool import Captcha
 
 
 @view_blueprint.route("/login", methods=['GET', 'POST'])
@@ -29,6 +30,13 @@ def register():
         login_user(user, remember=True)
         return redirect(url_for("user.home"))
     return render_template("register.html", form=form)
+
+
+@view_blueprint.route("/captcha/<captcha_id>")
+def get_captcha(captcha_id):
+    captcha = Captcha()
+    return captcha
+    captcha = Captcha.get_by_captcha_id(captcha_id)
 
 
 @view_blueprint.route("/logout")
