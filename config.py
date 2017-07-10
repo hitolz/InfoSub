@@ -43,6 +43,12 @@ class TestingConfig(Config):
     TRACER = True
     SECRET_KEY = "THIS_A_KEY"
 
+
+def get_config_obj():
+    RUNTIME = os.getenv("RUNTIME", "DEFAULT")
+    return app_config.get(RUNTIME, TestingConfig)
+
+
 app_config = {
     "DEVELOPMENT": DevelopmentConfig,
     "PRODUCTION": ProductionConfig,
