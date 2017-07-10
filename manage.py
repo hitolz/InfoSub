@@ -15,7 +15,18 @@ def make_shell_context():
     }
 
 manager.add_command("runserver", Server(host="0.0.0.0", port=5000, use_debugger=app.config.get("DEBUG")))
-manager.add_command("shell", Shell(make_context=make_shell_context))
+
+banner = """
+.___        _____      _________    ___.
+|   | _____/ ________ /   _____/__ _\_ |__
+|   |/    \   __/  _ \\\\_____  \|  |  | __ \\
+|   |   |  |  |(  <_> /        |  |  | \_\ \\
+|___|___|  |__| \____/_______  |____/|___  /
+         \/                  \/          \/
+-----------------------------------------------
+ipython model. Just For Fun!
+"""
+manager.add_command("shell", Shell(banner=banner, make_context=make_shell_context))
 
 
 @manager.command
