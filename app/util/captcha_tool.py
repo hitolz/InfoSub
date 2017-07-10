@@ -9,8 +9,8 @@ from config import get_config_obj
 
 serializer = URLSafeTimedSerializer(get_config_obj().SECRET_KEY)
 FONTS_PATH = os.path.join(get_config_obj().PROJECT_PATH, "static/fonts")
-image = ImageCaptcha(fonts=[os.path.join(FONTS_PATH, 'CourierNew-Bold.ttf'),
-                            os.path.join(FONTS_PATH, 'LiberationMono-Bold.ttf')])
+image = ImageCaptcha(width=160, height=60, fonts=[os.path.join(FONTS_PATH, 'CourierNew-Bold.ttf'),
+                                                  os.path.join(FONTS_PATH, 'LiberationMono-Bold.ttf')])
 
 
 class Captcha(object):
@@ -19,7 +19,7 @@ class Captcha(object):
             self.captcha_code = captcha_code
         else:
             self.captcha_code = ''.join(random.sample(string.digits + string.lowercase + string.uppercase, 6))
-        self.captcha_id = serializer.dumps(self.captcha_code)
+        self.captcha_id = serializer.dumps(dict(captcha_code=self.captcha_code, salt=random.randrange(1000)))
 
     def image(self):
         data = image.generate(self.captcha_code)
@@ -39,9 +39,9 @@ class Captcha(object):
     @classmethod
     def get_by_captcha_id(cls, captcha_id, max_age=60 * 30):
         try:
-            captcha_code = serializer.loads(captcha_id, max_age=max_age)
+            captcha = serializer.loads(captcha_id, max_age=max_age)
         except:
-            captcha_code = None
-        if not captcha_code:
+            captcha = None
+        if not captcha:
             return None
-        return cls(captcha_code)
+        return cls(captcha.get("captcha_code"))

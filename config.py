@@ -1,4 +1,5 @@
 import os
+from app.util.helper import str2bool
 
 
 class Config(object):
@@ -26,7 +27,7 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEBUG = True
     TEST = True
-    TRACER = os.getenv("TRACER", False)
+    TRACER = str2bool(os.getenv("TRACER"), default=False)
     SECRET_KEY = "THIS_A_KEY"
     SQLALCHEMY_RECORD_QUERIES = True
 

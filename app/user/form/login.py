@@ -23,8 +23,8 @@ class LoginForm(FlaskForm):
         raise ValidationError(u"用户名或密码错误")
 
     def validate_captcha_code(self, field):
-        # if current_app.config.get("DEBUG"):
-        #     return
+        if current_app.config.get("DEBUG"):
+            return
         if self.captcha_id.data:
             captcha = Captcha.get_by_captcha_id(self.captcha_id.data)
             if captcha.validate(field.data):
