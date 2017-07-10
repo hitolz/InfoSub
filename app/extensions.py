@@ -1,4 +1,5 @@
-from flask import redirect, url_for
+import os
+from flask import redirect, url_for, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_debugtoolbar import DebugToolbarExtension
@@ -17,7 +18,7 @@ tracer_config = Config(
             'param': 1,
         },
         'local_agent': {
-            'reporting_host': "jaeger_host",
+            'reporting_host': os.getenv("JAEGER_HOST"),
         },
         'logging': True,
     },
