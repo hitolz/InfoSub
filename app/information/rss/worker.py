@@ -48,16 +48,37 @@ def get_all_site():
         sub_this_site(site)
 
 
+def get_articles_by_url(rss_url):
+    feeds = feedparser.parse(rss_url)
+    return feeds['entries']
+
+
+def get_site_info(rss_url):
+    print rss_url
+    feeds = feedparser.parse(rss_url)
+    return feeds
+
+
+def insert_site(rss_url, site_name, site_url, site_desc):
+    print "rss_url = %s " % rss_url
+    print "site_name = %s " % site_name
+    print "site_url = %s " % site_url
+    print "site_desc = %s " % site_desc
+    site = WebSite(rss_url,site_url,site_name,site_desc)
+    print "insert success"
+
+
 def sub_this_site(site):
-    feeds = feedparser.parse(site.rss_url)
-    for feed in feeds['entries']:
+    articles = get_articles_by_url(site.rss_url)
+    print site.rss_url
+    for feed in articles:
         article_title = feed.get('title')
         article_link = feed.get('link')
         article_desc = feed.get('description', '')
         article_content = feed.get('content', '')[0]['value']
 
         into_article(article_title, article_link, article_desc, article_content, site.site_id)
-    if len(feeds['entries']) > 0:
+    if len(articles) > 0:
         site.sub_success()
 
 
@@ -76,7 +97,6 @@ def into_article(article_title, article_link, article_desc, article_content, sit
         site_id=site_id
     )
     article.set_tags(tags)
-
 
 
 if __name__ == "__main__":

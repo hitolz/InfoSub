@@ -1,5 +1,5 @@
 import os
-from flask_script import Manager, Server
+from flask_script import Manager, Server, Shell
 
 from app import create_app, db
 
@@ -7,7 +7,15 @@ RUNTIME = os.getenv("RUNTIME", "DEFAULT")
 app = create_app(RUNTIME)
 manager = Manager(app)
 
+
+def make_shell_context():
+    return {
+        "db": db,
+        "app": app,
+    }
+
 manager.add_command("runserver", Server(host="0.0.0.0", port=5000, use_debugger=app.config.get("DEBUG")))
+manager.add_command("shell", Shell(make_context=make_shell_context))
 
 
 @manager.command
@@ -39,13 +47,15 @@ def init_user():
     UserPlan("primary_plan", "subscription", 100)
     UserPlan("intermediate_plan", "subscription", 500)
     UserPlan("advanced_plan", "subscription", 2000)
-    UserPlan("internal_plan", "subscription", 5000)
+    admin_plan = UserPlan("internal_plan", "subscription", 5000)
 
     print("create admin...")
     admin = User("admin", "admin@updev.cn", "admin")
     admin.set_role("admin")
+    admin.set_plans([admin_plan])
     print("username: {}, email: {}, password: {}".format(admin.username, admin.email, "admin"))
 
 
 if __name__ == "__main__":
     manager.run()
+

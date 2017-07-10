@@ -1,0 +1,32 @@
+{% extends "dashboard_base.html" %}
+{% block title %}用户设置{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h3>用户设置</h3>
+        <div style="padding: 10px"></div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group">
+                    <a href="{{ url_for('user.setting', path='profile') }}" class="list-group-item">基本信息</a>
+                    <a href="{{ url_for('user.setting', path='account') }}" class="list-group-item">账号安全</a>
+                    <a href="{{ url_for('user.setting', path='message') }}" class="list-group-item active">消息提醒</a>
+                    <a href="{{ url_for('user.setting', path='delete') }}" class="list-group-item">删除账号</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <b class="panel-title">订阅消息提醒</b>
+                    </div>
+                    <div class="panel-body">
+                        <p>待完善...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

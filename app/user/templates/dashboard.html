@@ -2,50 +2,56 @@
 {% block title %}仪表盘{% endblock %}
 {% block content %}
 <div class="row">
-    <h2>仪表盘</h2>
+    <div class="col-lg-12">
+        <h2>仪表盘</h2>
+    </div>
     <div class="col-lg-9">
         <div class="row">
-            <h3>Hi, {{ current_user.username }}</h3>
-            <div class="col-md-6">
+            <div class="col-lg-12">
+                <h3>Hi, {{ current_user.username }}</h3>
+            </div>
+            <div class="col-md-6 col-xs-6">
                 <p>您当前是 <span class="label label-primary">{{ current_user.role | user_type }}</span></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 col-xs-6">
                 <p>账号创建于 {{ current_user.create_time }}</p>
             </div>
         </div>
-        <hr />
+        <hr/>
         <div class="row">
-            <div class="col-md-4">
-                <div class="panel panel-default">
+            <div class="col-md-4 col-xs-4">
+                <div class="panel panel-success">
                     <div class="panel-heading">网站累计订阅文章</div>
                     <div class="panel-body">
-                        <label>0</label> 篇
+                        <label>{{ data.site }}</label> 篇
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
+            <div class="col-md-4 col-xs-4">
+                <div class="panel panel-info">
                     <div class="panel-heading">微信公众号累计订阅文章</div>
                     <div class="panel-body">
-                        <label>0</label> 篇
+                        <label>{{ data.wechat }}</label> 篇
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
+            <div class="col-md-4 col-xs-4">
+                <div class="panel panel-warning">
                     <div class="panel-heading">微博累计订阅更新</div>
                     <div class="panel-body">
-                        <label>0</label> 件
+                        <label>{{ data.weibo }}</label> 件
                     </div>
                 </div>
             </div>
         </div>
         <br/>
         <div class="row">
-            <h4>套餐用量</h4>
-            {% for p in current_user.plans %}
-            <div class="col-md-6" style="padding: 10px;">
-                <div class="panel panel-default">
+            <div class="col-lg-12">
+                <h4>套餐用量</h4>
+            </div>
+            {% for p in plans %}
+            <div class="col-md-6 col-xs-6" style="padding: 10px;">
+                <div class="panel panel-danger">
                     <div class="panel-heading">
                         <label>{{ p.plan_name | plan_name }}</label>
                         <small>{{ p.plan_type | plan_type }}</small>
@@ -64,54 +70,60 @@
             {% endfor %}
         </div>
         <div class="row">
-            <h4>捐赠</h4>
-            <div class="col-md-3">
+            <div class="col-lg-12">
+                <h4>捐赠</h4>
+            </div>
+            <div class="col-md-3 col-xs-6">
                 <p>支付宝(5 RMB)</p>
-                <img src="..." alt="zhi-5" class="img-rounded">
+                <img src="{{ url_for('static', filename='img/zhi-5.png') }}" width="100%" alt="zhi-5" class="img-rounded">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-xs-6">
                 <p>微信(5 RMB)</p>
-                <img src="..." alt="wei-5" class="img-rounded">
+                <img src="{{ url_for('static', filename='img/wei-5.png') }}" alt="wei-5" width="100%" class="img-rounded">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-xs-6">
                 <p>支付宝(30 RMB)</p>
-                <img src="..." alt="zhi-30" class="img-rounded">
+                <img src="{{ url_for('static', filename='img/zhi-30.png') }}" alt="zhi-30" width="100%" class="img-rounded">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-xs-6">
                 <p>微信(30 RMB)</p>
-                <img src="..." alt="wei-30" class="img-rounded">
+                <img src="{{ url_for('static', filename='img/wei-30.png') }}" alt="wei-30" width="100%" class="img-rounded">
             </div>
         </div>
     </div>
     <div class="col-lg-3">
         <div class="row">
-            <h3>公告</h3>
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <b class="panel-title">title</b>
-                </div>
-                <div class="panel-body">
-                    <marquee scrolldelay="200">content...</marquee>
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                        <a href="https://github.com/CoderHito/InfoSub/issues/new" target="_blank" type="button"
-                           class="btn btn-default"> 提交 issues </a>
-                        <a href="mailto:i@hitol.me?subject=关于InfoSub的反馈&body=Hi Hito, 我是 {{ current_user.username}}, "
-                           type="button" class="btn btn-default"> 联系管理员 </a>
-                        <a type="button" class="btn btn-default"> 查看历史公告 </a>
+            <div class="col-lg-12">
+                <h3>公告</h3>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <b class="panel-title">title</b>
+                    </div>
+                    <div class="panel-body">
+                        <marquee scrolldelay="200">content...</marquee>
+                    </div>
+                    <div class="panel-footer" style="text-align: center">
+                        <div class="btn-group btn-group-xs" role="group">
+                            <a href="https://github.com/CoderHito/InfoSub/issues/new" target="_blank" type="button"
+                               class="btn btn-default"> 提交 issues </a>
+                            <a href="mailto:i@hitol.me?subject=关于InfoSub的反馈&body=Hi Hito, 我是 {{ current_user.username}}, "
+                               type="button" class="btn btn-default"> 联系管理员 </a>
+                            <a type="button" class="btn btn-primary"> 查看历史公告 </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <h3>FAQ</h3>
-            <div class="list-group">
-                <a href="https://github.com/CoderHito/InfoSub/wiki" target="_blank" class="list-group-item">关于
-                    InfoSub</a>
-                <a href="#" target="_blank" class="list-group-item">使用说明</a>
-                <a href="#" target="_blank" class="list-group-item">套餐用量</a>
-                <a href="#" target="_blank" class="list-group-item">关于捐赠</a>
+            <div class="col-md-12">
+                <h3>FAQ</h3>
+                <div class="list-group">
+                    <a href="https://github.com/CoderHito/InfoSub/wiki" target="_blank" class="list-group-item">关于
+                        InfoSub</a>
+                    <a href="#" target="_blank" class="list-group-item">使用说明</a>
+                    <a href="#" target="_blank" class="list-group-item">套餐用量</a>
+                    <a href="#" target="_blank" class="list-group-item">关于捐赠</a>
+                </div>
             </div>
         </div>
     </div>
