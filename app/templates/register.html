@@ -48,8 +48,8 @@
                     <div class="col-md-8">
                         {{ form.captcha_code(class="form-control", placeholder="Captcha") }}
                     </div>
-                    <div class="col-md-4">
-                        <img src="{{ url_for('view.get_captcha', captcha_id=captcha_id) }}" width="100%"
+                    <div class="col-md-4" id="captcha">
+                        <img src="{{ url_for('view.get_captcha_image', captcha_id=captcha_id) }}" width="100%"
                              class="img-rounded">
                     </div>
                 </div>
