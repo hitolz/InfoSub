@@ -1,3 +1,4 @@
+# coding=utf-8
 import os
 from flask_script import Manager, Server
 
@@ -26,6 +27,7 @@ def initdb():
 
     try:
         init_user()
+        init_site_type()
     except Exception:
         pass
 
@@ -48,6 +50,30 @@ def init_user():
     print("username: {}, email: {}, password: {}".format(admin.username, admin.email, "admin"))
 
 
+def init_site_type():
+    print ("init site type...")
+    from app.model.info import SiteType
+    SiteType(u'博客网站')
+    SiteType(u'机构网站')
+    SiteType(u'门户网站')
+
+
+def make_celery(app):
+    from app.extensions import celery
+    TaskBase = celery.Task
+
+    class ContextTask(TaskBase):
+        abstract = True
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+
+    celery.Task = ContextTask
+    return celery
+
+
+celery = make_celery(app)
+
 if __name__ == "__main__":
     manager.run()
-

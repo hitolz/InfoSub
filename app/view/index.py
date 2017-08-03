@@ -3,6 +3,8 @@ from flask import render_template
 from app.view import view_blueprint
 
 
+
+
 @view_blueprint.route("/")
 def home():
     return render_template("index_base.html")

@@ -59,12 +59,18 @@ def get_site_info(rss_url):
     return feeds
 
 
-def insert_site(rss_url, site_name, site_url, site_desc):
+def insert_site(rss_url, site_name, site_url, site_desc, sub_type,site_type_id):
+
+    if WebSite.query.filter(WebSite.rss_url.endswith(rss_url)).first():
+        return
+
     print "rss_url = %s " % rss_url
     print "site_name = %s " % site_name
     print "site_url = %s " % site_url
     print "site_desc = %s " % site_desc
-    site = WebSite(rss_url,site_url,site_name,site_desc)
+    print "sub_type = %s" % sub_type
+    site = WebSite(rss_url, site_url, site_name, site_desc, sub_type)
+    site.set_site_type(site_type_id)
     print "insert success"
 
 

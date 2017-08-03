@@ -1,11 +1,23 @@
 from flask import redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from celery import Celery
+
 
 from app.util.user_display import plan_display, plan_type_display, user_display
+from config import get_app_config
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+
+celery = Celery(
+    __name__,
+    include=[
+        "app.information.timers",
+    ],
+    broker=get_app_config().CELERY_BROKER_URL,
+)
+celery.config_from_object(get_app_config(), force=True)
 
 
 @login_manager.unauthorized_handler

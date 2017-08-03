@@ -29,6 +29,8 @@ class Article(db.Model):
         self.article_desc = article_desc
         self.article_content = article_content
         self.site_id = site_id
+        self.create_time = datetime.now()
+
         db.session.add(self)
         db.session.commit()
 
@@ -79,21 +81,21 @@ class WebSite(db.Model):
     create_time = db.Column(db.DateTime)
     last_sub_time = db.Column(db.DateTime)
 
-    def __init__(self, rss_url='' ,site_url='', site_name='', site_desc='', sub_type='rss', *args, **kwargs):
+    def __init__(self, rss_url='', site_url='', site_name='', site_desc='', sub_type='rss', *args, **kwargs):
         super(WebSite, self).__init__(*args, **kwargs)
         self.site_id = str(uuid.uuid4())
         self.site_url = site_url
         self.site_name = site_name
         self.site_desc = site_desc
         self.rss_url = rss_url
-        self.sub_type = 'rss'
+        self.sub_type = sub_type
 
         self.create_time = datetime.now()
         db.session.add(self)
         db.session.commit()
 
-    def set_site_type(self, site_type):
-        self.site_type_id = site_type.type_id
+    def set_site_type(self, site_type_id):
+        self.site_type_id = site_type_id
         db.session.add(self)
         db.session.commit()
 
