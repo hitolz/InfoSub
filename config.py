@@ -1,11 +1,14 @@
 import os
 from celery.schedules import crontab
+from app.util.helper import str2bool
 
 
 class Config(object):
     DEBUG = False
     TEST = False
+    TRACER = False
 
+    PROJECT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "app")
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     DATABASE_USER = os.getenv("DATABASE_USER")
     DATABASE_PASS = os.getenv("DATABASE_PASS")
@@ -39,19 +42,28 @@ class Config(object):
 # development
 class DevelopmentConfig(Config):
     DEBUG = True
-    TEST = False
+    TEST = True
+    TRACER = str2bool(os.getenv("TRACER"), default=False)
     SECRET_KEY = "THIS_A_KEY"
+    SQLALCHEMY_RECORD_QUERIES = True
 
 
 # production
 class ProductionConfig(Config):
     SECRET_KEY = os.getenv("SECRET_KEY")
+    TRACER = True
 
 
 # testing
 class TestingConfig(Config):
     TEST = True
+    TRACER = True
     SECRET_KEY = "THIS_A_KEY"
+
+
+def get_config_obj():
+    RUNTIME = os.getenv("RUNTIME", "DEFAULT")
+    return app_config.get(RUNTIME, TestingConfig)
 
 
 app_config = {

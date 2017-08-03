@@ -6,17 +6,18 @@ services:
     image: infosub:latest
     links:
       - sub_db:db
+      - jaeger:jeager_host
     restart: always
     ports:
       - 80:5000
     environment:
       - DATABASE_USER=root
+      - JAEGER_HOST=jeager_host
       - DATABASE_PASS=j79x4txHRz6sAm73
       - DATABASE_URI=db
       - DATABASE_DB=info
       - SECRET_KEY=3LU23tFm2yvy6D4x
       - RUNTIME=PRODUCTION
-
 
   sub_db:
     image: mysql
@@ -24,4 +25,11 @@ services:
       - MYSQL_ROOT_PASSWORD=j79x4txHRz6sAm73
       - MYSQL_DATABASE=info
     restart: always
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - 8800:16686
+    restart: always
+
 

@@ -1,14 +1,32 @@
-from flask import redirect, url_for
+import os
+from flask import redirect, url_for, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from celery import Celery
 
+from flask_debugtoolbar import DebugToolbarExtension
+from jaeger_client import Config
 
 from app.util.user_display import plan_display, plan_type_display, user_display
 from config import get_app_config
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+tool_bar = DebugToolbarExtension()
+
+tracer_config = Config(
+    config={
+        'sampler': {
+            'type': 'const',
+            'param': 1,
+        },
+        'local_agent': {
+            'reporting_host': os.getenv("JAEGER_HOST"),
+        },
+        'logging': True,
+    },
+    service_name='info_sub_web',
+)
 
 celery = Celery(
     __name__,

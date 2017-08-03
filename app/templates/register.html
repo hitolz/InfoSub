@@ -6,7 +6,7 @@
         <h3>用户注册</h3>
         <br />
         <form method="POST" action="{{ url_for('view.register') }}">
-            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.username.label }} <b style="color: red">*</b>
                 {{ form.username(class="form-control", placeholder="Username") }}
@@ -33,12 +33,29 @@
             <div class="form-group">
                 {{ form.re_password.label }} <b style="color: red">*</b>
                 {{ form.re_password(class="form-control", id="re_password", placeholder="Repeat Password") }}
-                <small class="text-danger" id="re_password_error"></small>
+                <small class="text-danger" id="re_password_error">
+                    {% if form.errors.re_password %}{{ form.errors.re_password[0] }}{% endif %}
+                </small>
             </div>
             <div class="form-group">
                 {{ form.coupon.label }}
                 {{ form.coupon(class="form-control", placeholder="Invitation Code") }}
                 <small style="color: #666">* 没有邀请码可为空</small>
+            </div>
+            <div class="form-group">
+                {{ form.captcha_code.label }}
+                <div class="row">
+                    <div class="col-md-8">
+                        {{ form.captcha_code(class="form-control", placeholder="Captcha") }}
+                    </div>
+                    <div class="col-md-4" id="captcha">
+                        <img src="{{ url_for('view.get_captcha_image', captcha_id=captcha_id) }}" width="100%"
+                             class="img-rounded">
+                    </div>
+                </div>
+                {% if form.errors.captcha_code %}
+                <small class="text-danger">{{ form.errors.captcha_code[0] }}</small>
+                {% endif %}
             </div>
             <button type="submit" class="btn btn-success btn-block">立刻注册</button>
             <a href="{{ url_for('view.login') }}" type="button" class="btn btn-default btn-block">已有账号</a>

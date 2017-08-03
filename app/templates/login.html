@@ -6,7 +6,7 @@
         <h3>用户登录</h3>
         <br/>
         <form method="POST" action="{{ url_for('view.login') }}">
-            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.username_or_email.label }}
                 {{ form.username_or_email(class="form-control", placeholder="Username or Email") }}
@@ -27,9 +27,27 @@
                     {{ form.remember.label(style="padding-left: 0px;") }}
                 </label>
             </div>
+            <div class="form-group">
+                {{ form.captcha_code.label }}
+                <div class="row">
+                    <div class="col-md-8">
+                        {{ form.captcha_code(class="form-control", placeholder="Captcha") }}
+                    </div>
+                    <div id="captcha" class="col-md-4">
+                        <img src="{{ url_for('view.get_captcha_image', captcha_id=captcha_id) }}" width="100%"
+                             class="img-rounded">
+                    </div>
+                </div>
+                {% if form.errors.captcha_code %}
+                <small class="text-danger">{{ form.errors.captcha_code[0] }}</small>
+                {% endif %}
+            </div>
             <button type="submit" class="btn btn-primary btn-block">登录</button>
             <a href="{{ url_for('view.register') }}" type="button" class="btn btn-link btn-block">注册新用户</a>
         </form>
     </div>
 </div>
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/login.js')}}"></script>
 {% endblock %}
