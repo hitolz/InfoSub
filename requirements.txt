@@ -23,7 +23,7 @@ itsdangerous==0.24
 jaeger-client==3.4.0
 Jinja2==2.9.6
 kombu==4.0.2
-Mako==1.0.6
+Mako==1.2.2
 MarkupSafe==1.0
 opentracing==1.2.2
 PyMySQL==0.7.11
